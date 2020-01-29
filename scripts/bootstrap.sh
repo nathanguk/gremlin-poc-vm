@@ -1,20 +1,13 @@
 #!/bin/bash
 
-#Echo Vars Into file
-echo $1 >> ~/gremlin.txt
-echo "-------" >> ~/gremlin.txt
-echo $2 >> ~/gremlin.txt
-echo "-------" >> ~/gremlin.txt
-echo $3 >> ~/gremlin.txt
-
 #Update Server
 apt-get update -y
-# apt-get upgrade -y
+
 
 # Install Apache Webserver
+sleep 30
 apt-get install -y apache2
 hostname > /var/www/html/index.html
-
 
 # Install Unzip
 apt-get install -y apt-transport-https
@@ -34,11 +27,12 @@ echo "GREMLIN_TEAM_ID=$1" >> /etc/default/gremlind
 
 # Download Gremlin Certitificates
 sudo wget -O /var/lib/gremlin/gremlin.pub_cert.pem -o ~/wget1.log $3
-sudo wget -O /var/lib/gremlin/gremlin.priv_key.pem ~/wget2.log $2
+sudo wget -O /var/lib/gremlin/gremlin.priv_key.pem -o ~/wget2.log $2
 
 # Configure Gremlin Certitifcate Configuration
 echo 'GREMLIN_TEAM_CERTIFICATE_OR_FILE="file:///var/lib/gremlin/gremlin.pub_cert.pem"' >> /etc/default/gremlind
 echo 'GREMLIN_TEAM_PRIVATE_KEY_OR_FILE="file:///var/lib/gremlin/gremlin.priv_key.pem"' >> /etc/default/gremlind
+echo 'GREMLIN_CLIENT_TAGS="application=gremlin-poc,owner=nathan_gaskill,department=octo"' >> /etc/default/gremlind
 
 chown gremlin:gremlin /var/lib/gremlin/gremlin.p*
 chmod 600 /var/lib/gremlin/gremlin.p*
