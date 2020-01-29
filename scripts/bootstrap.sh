@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#Echo Vars Into file
+echo $1 >> ~/gremlin.txt
+echo "-------" >> ~/gremlin.txt
+echo $1 >> ~/gremlin.txt
+echo "-------" >> ~/gremlin.txt
+echo $1 >> ~/gremlin.txt
 
 #Update Server
 apt-get update -y
@@ -27,8 +33,8 @@ apt-get update && sudo apt-get install -y gremlin gremlind
 echo "GREMLIN_TEAM_ID=$1" >> /etc/default/gremlind
 
 # Download Gremlin Certitificates
-wget -O /var/lib/gremlin/gremlin.priv_key.pem "$2"
-wget -O /var/lib/gremlin/gremlin.pub_key.pem "$3"
+sudo wget -O /var/lib/gremlin/gremlin.pub_cert.pem "$3"
+sudo wget -O /var/lib/gremlin/gremlin.priv_key.pem "$2"
 
 # Configure Gremlin Certitifcate Configuration
 echo 'GREMLIN_TEAM_CERTIFICATE_OR_FILE="file:///var/lib/gremlin/gremlin.pub_cert.pem"' >> /etc/default/gremlind
