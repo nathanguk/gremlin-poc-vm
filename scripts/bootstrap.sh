@@ -23,12 +23,14 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9CDB294B29A5B1E2E00C24C
 # Install Gremlin client and daemon
 apt-get update && sudo apt-get install -y gremlin gremlind
 
-# Download Gremlin Certitificates
-wget -O /var/lib/gremlin/gremlin.priv_key.pem $2
-wget -O /var/lib/gremlin/gremlin.pub_key.pem $3
-
-# Configure Gremlin Configuration
+# Configure Gremlin Team Configuration
 echo "GREMLIN_TEAM_ID=$1" >> /etc/default/gremlind
+
+# Download Gremlin Certitificates
+wget -O /var/lib/gremlin/gremlin.priv_key.pem "$2"
+wget -O /var/lib/gremlin/gremlin.pub_key.pem "$3"
+
+# Configure Gremlin Certitifcate Configuration
 echo 'GREMLIN_TEAM_CERTIFICATE_OR_FILE="file:///var/lib/gremlin/gremlin.pub_cert.pem"' >> /etc/default/gremlind
 echo 'GREMLIN_TEAM_PRIVATE_KEY_OR_FILE="file:///var/lib/gremlin/gremlin.priv_key.pem"' >> /etc/default/gremlind
 

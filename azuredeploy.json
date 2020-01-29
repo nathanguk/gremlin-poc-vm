@@ -234,7 +234,7 @@
               "properties": {
                 "protocol": "Http",
                 "port": 80,
-                "requestPath": "/health.html",
+                "requestPath": "/",
                 "intervalInSeconds": 5,
                 "numberOfProbes": 2
               }
