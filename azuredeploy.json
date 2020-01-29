@@ -29,13 +29,13 @@
         }
       },
       "gremlinCertPrivate": {
-        "type": "securestring",
+        "type": "string",
         "metadata": {
           "description": "Gremlin Private Cert URL"
         }
       },
       "gremlinCertPublic": {
-        "type": "securestring",
+        "type": "string",
         "metadata": {
           "description": "Gremlin Public Cert URL"
         }
@@ -47,7 +47,7 @@
       "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
       "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
       "publicIPAddressName": "[concat(parameters('prefix'),'-pip')]",
-      "loadBalancerName": "[concat(parameters('prefix'),'-loadBalancer')]""loadBalancer",
+      "loadBalancerName": "[concat(parameters('prefix'),'-loadBalancer')]",
       "loadBalancerFrontEndName": "[concat(parameters('prefix'),'-loadBalancerFrontEnd')]",
       "loadBalancerBackEndName": "[concat(parameters('prefix'),'-loadBalancerBackEnd')]",
       "loadBalancerProbeName": "[concat(parameters('prefix'),'-loadBalancerHttpProbe')]",
@@ -328,11 +328,11 @@
       },
       "vmAdminUsername": {
         "type": "string",
-        "value": "[variables('adminUsername')]"
+        "value": "[parameters('adminUsername')]"
       },
       "vmAdminPassword": {
         "type": "string",
-        "value": "[variables('adminPassword')]"
+        "value": "[parameters('adminPassword')]"
       }
     }
   }
