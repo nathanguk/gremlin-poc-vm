@@ -3,9 +3,9 @@
 #Echo Vars Into file
 echo $1 >> ~/gremlin.txt
 echo "-------" >> ~/gremlin.txt
-echo $1 >> ~/gremlin.txt
+echo $2 >> ~/gremlin.txt
 echo "-------" >> ~/gremlin.txt
-echo $1 >> ~/gremlin.txt
+echo $3 >> ~/gremlin.txt
 
 #Update Server
 apt-get update -y
