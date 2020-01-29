@@ -286,7 +286,7 @@
                     "metricResourceUri": "[concat('/subscriptions/',subscription().subscriptionId, '/resourceGroups/',  resourceGroup().name, '/providers/Microsoft.Compute/virtualMachineScaleSets/', variables('vmSSName'))]",
                     "timeGrain": "PT1M",
                     "statistic": "Average",
-                    "timeWindow": "PT5M",
+                    "timeWindow": "PT2M",
                     "timeAggregation": "Average",
                     "operator": "GreaterThan",
                     "threshold": 50
@@ -295,7 +295,7 @@
                     "direction": "Increase",
                     "type": "ChangeCount",
                     "value": "1",
-                    "cooldown": "PT15M"
+                    "cooldown": "PT2M"
                   }
                 },
                 {
@@ -305,7 +305,7 @@
                     "metricResourceUri": "[concat('/subscriptions/',subscription().subscriptionId, '/resourceGroups/',  resourceGroup().name, '/providers/Microsoft.Compute/virtualMachineScaleSets/', variables('vmSSName'))]",
                     "timeGrain": "PT1M",
                     "statistic": "Average",
-                    "timeWindow": "PT5M",
+                    "timeWindow": "PT2M",
                     "timeAggregation": "Average",
                     "operator": "LessThan",
                     "threshold": 30
@@ -314,7 +314,7 @@
                     "direction": "Decrease",
                     "type": "ChangeCount",
                     "value": "1",
-                    "cooldown": "PT15M"
+                    "cooldown": "PT2M"
                   }
                 }
               ]
