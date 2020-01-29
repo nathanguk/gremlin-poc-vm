@@ -56,7 +56,9 @@
       "vmssName": "[concat(parameters('prefix'),'-vmss')]",
       "instanceCount": 2,
       "scriptLocation": "https://raw.githubusercontent.com/nathanguk/gremlin-poc-vm/master/scripts/bootstrap.sh",
-      "script": "bootstrap.sh"
+      "script": "bootstrap.sh",
+      "gremlinCertPrivate": "[concat('\"', parameters('gremlinCertPrivate'),'\"')]",
+      "gremlinCertPublic": "[concat('\"', parameters('gremlinCertPublic'),'\"')]"
     },
   
     "resources": [
@@ -140,7 +142,7 @@
                     "typeHandlerVersion": "2.0",
                     "autoUpgradeMinorVersion": true,
                     "protectedSettings": {
-                      "commandToExecute": "[concat ('./', variables('script'), ' ', ' ', parameters('gremlinTeamId'),' ', parameters('gremlinCertPrivate'),' ', parameters('gremlinCertPublic') )]"  
+                      "commandToExecute": "[concat ('./', variables('script'), ' ', ' ', parameters('gremlinTeamId'),' ', variables('gremlinCertPrivate'),' ', variables('gremlinCertPublic') )]"  
                     },
                     "type": "CustomScript"
                   }
