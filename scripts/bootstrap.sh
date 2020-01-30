@@ -25,6 +25,9 @@ apt-get update && sudo apt-get install -y gremlin gremlind
 # Configure Gremlin Team Configuration
 echo "GREMLIN_TEAM_ID=$1" >> /etc/default/gremlind
 
+# Configure Gremlin Identifier
+echo "GREMLIN_IDENTIFIER=$(hostname)" >> /etc/default/gremlind
+
 # Download Gremlin Certitificates
 sudo wget -O /var/lib/gremlin/gremlin.pub_cert.pem -o ~/wget1.log $3
 sudo wget -O /var/lib/gremlin/gremlin.priv_key.pem -o ~/wget2.log $2
@@ -33,6 +36,7 @@ sudo wget -O /var/lib/gremlin/gremlin.priv_key.pem -o ~/wget2.log $2
 echo 'GREMLIN_TEAM_CERTIFICATE_OR_FILE="file:///var/lib/gremlin/gremlin.pub_cert.pem"' >> /etc/default/gremlind
 echo 'GREMLIN_TEAM_PRIVATE_KEY_OR_FILE="file:///var/lib/gremlin/gremlin.priv_key.pem"' >> /etc/default/gremlind
 echo 'GREMLIN_CLIENT_TAGS="application=gremlin-poc,owner=nathan_gaskill,department=octo"' >> /etc/default/gremlind
+
 
 chown gremlin:gremlin /var/lib/gremlin/gremlin.p*
 chmod 600 /var/lib/gremlin/gremlin.p*
