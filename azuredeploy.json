@@ -177,7 +177,10 @@
         "type": "Microsoft.Network/publicIPAddresses",
         "name": "[variables('publicIPAddressName')]",
         "location": "[resourceGroup().location]",
-        "apiVersion": "2017-06-01",
+        "apiVersion": "2018-10-01",
+        "sku": {
+          "name": "Standard"
+        },
         "properties": {
           "publicIPAllocationMethod": "Dynamic",
           "dnsSettings": {
