@@ -190,6 +190,9 @@
         "name": "[variables('loadBalancerName')]",
         "location": "[resourceGroup().location]",
         "apiVersion": "2017-06-01",
+        "sku": {
+          "name": "Standard"
+        },
         "dependsOn": [
           "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
         ],
