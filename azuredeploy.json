@@ -182,7 +182,7 @@
           "name": "Standard"
         },
         "properties": {
-          "publicIPAllocationMethod": "Dynamic",
+          "publicIPAllocationMethod": "Static",
           "dnsSettings": {
             "domainNameLabel": "[toLower(variables('vmssName'))]"
           }
