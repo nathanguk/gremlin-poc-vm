@@ -189,7 +189,7 @@
         "type": "Microsoft.Network/loadBalancers",
         "name": "[variables('loadBalancerName')]",
         "location": "[resourceGroup().location]",
-        "apiVersion": "2019-04-01",
+        "apiVersion": "2018-04-01",
         "sku": {
           "name": "Standard"
         },
