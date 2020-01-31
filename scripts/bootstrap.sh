@@ -1,11 +1,10 @@
 #!/bin/bash
+sleep 60 
 
 #Update Server
 apt-get update -y
 
-
 # Install Apache Webserver
-sleep 30
 apt-get install -y apache2
 
 # Crete index.html file
