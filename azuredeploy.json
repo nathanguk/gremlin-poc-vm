@@ -46,6 +46,7 @@
       "subnetName": "[concat(parameters('prefix'),'-subnet')]",
       "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
       "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+      "securityGroupName": "[concat(parameters('prefix'),'-nsg')]",
       "publicIPAddressName": "[concat(parameters('prefix'),'-pip')]",
       "loadBalancerName": "[concat(parameters('prefix'),'-loadBalancer')]",
       "loadBalancerFrontEndName": "[concat(parameters('prefix'),'-loadBalancerFrontEnd')]",
@@ -153,9 +154,164 @@
         }
       },
       {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "name": "[variables('securityGroupName')]",
+        "apiVersion": "2018-02-01",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "securityRules": [
+                {
+                    "name": "inbound-tcp-80-http",
+                    "properties": {
+                        "protocol": "Tcp",
+                        "sourcePortRange": "*",
+                        "destinationPortRange": "80",
+                        "sourceAddressPrefix": "*",
+                        "destinationAddressPrefix": "VirtualNetwork",
+                        "access": "Allow",
+                        "priority": 100,
+                        "direction": "Inbound",
+                        "sourcePortRanges": [],
+                        "destinationPortRanges": [],
+                        "sourceAddressPrefixes": [],
+                        "destinationAddressPrefixes": []
+                    }
+                },
+                {
+                    "name": "inbound-tcp-22-ssh",
+                    "properties": {
+                        "protocol": "Tcp",
+                        "sourcePortRange": "*",
+                        "destinationPortRange": "22",
+                        "sourceAddressPrefix": "*",
+                        "destinationAddressPrefix": "VirtualNetwork",
+                        "access": "Allow",
+                        "priority": 110,
+                        "direction": "Inbound",
+                        "sourcePortRanges": [],
+                        "destinationPortRanges": [],
+                        "sourceAddressPrefixes": [],
+                        "destinationAddressPrefixes": []
+                    }
+                }
+            ],
+            "defaultSecurityRules": [
+                {
+                    "name": "AllowVnetInBound",
+                    "properties": {
+                        "description": "Allow inbound traffic from all VMs in VNET",
+                        "protocol": "*",
+                        "sourcePortRange": "*",
+                        "destinationPortRange": "*",
+                        "sourceAddressPrefix": "VirtualNetwork",
+                        "destinationAddressPrefix": "VirtualNetwork",
+                        "access": "Allow",
+                        "priority": 65000,
+                        "direction": "Inbound",
+                        "sourcePortRanges": [],
+                        "destinationPortRanges": [],
+                        "sourceAddressPrefixes": [],
+                        "destinationAddressPrefixes": []
+                    }
+                },
+                {
+                    "name": "AllowAzureLoadBalancerInBound",
+                    "properties": {
+                        "description": "Allow inbound traffic from azure load balancer",
+                        "protocol": "*",
+                        "sourcePortRange": "*",
+                        "destinationPortRange": "*",
+                        "sourceAddressPrefix": "AzureLoadBalancer",
+                        "destinationAddressPrefix": "*",
+                        "access": "Allow",
+                        "priority": 65001,
+                        "direction": "Inbound",
+                        "sourcePortRanges": [],
+                        "destinationPortRanges": [],
+                        "sourceAddressPrefixes": [],
+                        "destinationAddressPrefixes": []
+                    }
+                },
+                {
+                    "name": "DenyAllInBound",
+                    "properties": {
+                        "description": "Deny all inbound traffic",
+                        "protocol": "*",
+                        "sourcePortRange": "*",
+                        "destinationPortRange": "*",
+                        "sourceAddressPrefix": "*",
+                        "destinationAddressPrefix": "*",
+                        "access": "Deny",
+                        "priority": 65500,
+                        "direction": "Inbound",
+                        "sourcePortRanges": [],
+                        "destinationPortRanges": [],
+                        "sourceAddressPrefixes": [],
+                        "destinationAddressPrefixes": []
+                    }
+                },
+                {
+                    "name": "AllowVnetOutBound",
+                    "properties": {
+                        "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                        "protocol": "*",
+                        "sourcePortRange": "*",
+                        "destinationPortRange": "*",
+                        "sourceAddressPrefix": "VirtualNetwork",
+                        "destinationAddressPrefix": "VirtualNetwork",
+                        "access": "Allow",
+                        "priority": 65000,
+                        "direction": "Outbound",
+                        "sourcePortRanges": [],
+                        "destinationPortRanges": [],
+                        "sourceAddressPrefixes": [],
+                        "destinationAddressPrefixes": []
+                    }
+                },
+                {
+                    "name": "AllowInternetOutBound",
+                    "properties": {
+                        "description": "Allow outbound traffic from all VMs to Internet",
+                        "protocol": "*",
+                        "sourcePortRange": "*",
+                        "destinationPortRange": "*",
+                        "sourceAddressPrefix": "*",
+                        "destinationAddressPrefix": "Internet",
+                        "access": "Allow",
+                        "priority": 65001,
+                        "direction": "Outbound",
+                        "sourcePortRanges": [],
+                        "destinationPortRanges": [],
+                        "sourceAddressPrefixes": [],
+                        "destinationAddressPrefixes": []
+                    }
+                },
+                {
+                    "name": "DenyAllOutBound",         
+                    "properties": {
+                        "description": "Deny all outbound traffic",
+                        "protocol": "*",
+                        "sourcePortRange": "*",
+                        "destinationPortRange": "*",
+                        "sourceAddressPrefix": "*",
+                        "destinationAddressPrefix": "*",
+                        "access": "Deny",
+                        "priority": 65500,
+                        "direction": "Outbound",
+                        "sourcePortRanges": [],
+                        "destinationPortRanges": [],
+                        "sourceAddressPrefixes": [],
+                        "destinationAddressPrefixes": []
+                    }
+                }
+            ]
+        }
+      },
+      {
         "type": "Microsoft.Network/virtualNetworks",
         "name": "[variables('vnetName')]",
         "location": "[resourceGroup().location]",
+        "dependsOn": ["[concat('Microsoft.Network/networkSecurityGroups/', variables('securityGroupName'))]"],
         "apiVersion": "2017-06-01",
         "properties": {
           "addressSpace": {
@@ -167,7 +323,10 @@
             {
               "name": "[variables('subnetName')]",
               "properties": {
-                "addressPrefix": "10.0.0.0/24"
+                "addressPrefix": "10.0.0.0/24",
+                "networkSecurityGroup": {
+                  "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
+                }
               }
             }
           ]
