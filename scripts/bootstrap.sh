@@ -42,7 +42,7 @@ sudo wget -O /var/lib/gremlin/gremlin.priv_key.pem -o ~/wget2.log $2
 # Configure Gremlin Certitifcate Configuration
 echo 'GREMLIN_TEAM_CERTIFICATE_OR_FILE="file:///var/lib/gremlin/gremlin.pub_cert.pem"' >> /etc/default/gremlind
 echo 'GREMLIN_TEAM_PRIVATE_KEY_OR_FILE="file:///var/lib/gremlin/gremlin.priv_key.pem"' >> /etc/default/gremlind
-echo 'GREMLIN_CLIENT_TAGS="application=gremlin-poc,owner=nathan_gaskill,department=octo"' >> /etc/default/gremlind
+echo 'GREMLIN_CLIENT_TAGS="application=gremlin-poc,department=octo"' >> /etc/default/gremlind
 
 
 chown gremlin:gremlin /var/lib/gremlin/gremlin.p*
