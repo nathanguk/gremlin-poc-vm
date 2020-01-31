@@ -7,11 +7,18 @@ apt-get update -y
 # Install Apache Webserver
 sleep 30
 apt-get install -y apache2
-hostname > /var/www/html/index.html
 
-# Install Unzip
+# Crete index.html file
+echo "<!DOCTYPE html>" > /var/www/html/index.html
+echo "<html>" >> /var/www/html/index.html
+echo "<head>" >> /var/www/html/index.html
+echo '<meta http-equiv="refresh" content="30">' >> /var/www/html/index.html
+echo "</head>" >> /var/www/html/index.html
+echo "<body><h1>$(hostname)</h1></body>" >> /var/www/html/index.html
+echo "</html>" >> /var/www/html/index.html
+
+# Install Transport Https
 apt-get install -y apt-transport-https
-
 
 # Add the Gremlin repo
 echo "deb https://deb.gremlin.com/ release non-free" | tee /etc/apt/sources.list.d/gremlin.list
