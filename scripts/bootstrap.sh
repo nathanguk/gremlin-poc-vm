@@ -13,7 +13,7 @@ echo "<html>" >> /var/www/html/index.html
 echo "<head>" >> /var/www/html/index.html
 echo '<meta http-equiv="refresh" content="2">' >> /var/www/html/index.html
 echo "</head>" >> /var/www/html/index.html
-echo "<body><h1>$(hostname)</h1></body>" >> /var/www/html/index.html
+echo "<body><h1>Hostname: $(hostname)</h1></body>" >> /var/www/html/index.html
 echo "</html>" >> /var/www/html/index.html
 
 # Install Transport Https
